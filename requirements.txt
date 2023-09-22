@@ -2,3 +2,4 @@ pyvista
 numba
 numpy
 torch
+cython
