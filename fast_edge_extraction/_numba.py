@@ -3,6 +3,7 @@ import numpy as np
 import torch
 import pyvista
 
+
 @jit(nopython=True, fastmath=True)
 def sort_edges(edges, inverse_ordering):
     """Sort the edges of a mesh, given inverse ordering
@@ -18,7 +19,6 @@ def sort_edges(edges, inverse_ordering):
             sorted_edges[i] = inverse_ordering[edges[i]]
 
     return sorted_edges
-    
 
 
 def edges(points: torch.Tensor, triangles: torch.Tensor) -> torch.Tensor:
@@ -28,23 +28,30 @@ def edges(points: torch.Tensor, triangles: torch.Tensor) -> torch.Tensor:
         edges (2x|E| torch.Tensor): the edges of the mesh
     """
 
-    # Back to pyvista padded faces format
+    # Back to pyvista padded faces format
     triangles_pad = triangles.clone().cpu().numpy().T
-    triangles_pad = np.pad(triangles_pad, ((0, 0), (1, 0)), mode='constant', constant_values=3).reshape(-1)
+    triangles_pad = np.pad(
+        triangles_pad, ((0, 0), (1, 0)), mode="constant", constant_values=3
+    ).reshape(-1)
 
     points_np = points.cpu().numpy()
 
     shape = pyvista.PolyData(points_np, faces=triangles_pad)
 
     edges_mesh = shape.extract_all_edges()
-    edges_ordering = np.lexsort((edges_mesh.points[:,2], edges_mesh.points[:,1], edges_mesh.points[:,0]))
+    edges_ordering = np.lexsort(
+        (edges_mesh.points[:, 2], edges_mesh.points[:, 1], edges_mesh.points[:, 0])
+    )
     inverse_edges_ordering = np.argsort(edges_ordering)
-    
-    points_ordering = np.lexsort((edges_mesh.points[:,2], edges_mesh.points[:,1], edges_mesh.points[:,0]))
-    
 
-    edges = sort_edges(edges_mesh.lines, inverse_edges_ordering) # To lexicographic order
-    edges = sort_edges(edges, points_ordering) # Back to the original order
-    edges = edges.reshape(-1, 3)[:, 1:] # Remove padding
+    points_ordering = np.lexsort(
+        (edges_mesh.points[:, 2], edges_mesh.points[:, 1], edges_mesh.points[:, 0])
+    )
+
+    edges = sort_edges(
+        edges_mesh.lines, inverse_edges_ordering
+    )  # To lexicographic order
+    edges = sort_edges(edges, points_ordering)  # Back to the original order
+    edges = edges.reshape(-1, 3)[:, 1:]  # Remove padding
     edges = torch.Tensor(edges).T.long()
     return edges

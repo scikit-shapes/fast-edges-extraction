@@ -3,7 +3,7 @@ import torch
 
 def edges(points: torch.Tensor, triangles: torch.Tensor) -> torch.Tensor:
     """Return the edges of the mesh
-    
+
     Args:
         points (torch.Tensor): the points of the mesh
         triangles (torch.Tensor): the triangles of the mesh

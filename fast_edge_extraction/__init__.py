@@ -1,14 +1,38 @@
-
-from .numba import edges as edges_numba
-from .torch import edges as edges_torch
+from ._numba import edges as edges_numba
+from ._torch import edges as edges_torch
+from ._cython import edges as edges_cython_core
 from typing import Tuple
 
 import pyvista
 import torch
+from typing import Tuple
+import numpy as np
 
-def compute_points_and_triangles(mesh: pyvista.PolyData) -> Tuple[torch.Tensor, torch.Tensor]:
+
+def compute_edges(points: torch.Tensor, triangles: torch.Tensor) -> torch.Tensor:
+    return edges_cython(points, triangles)
+
+
+def edges_cython(
+    points: torch.Tensor, triangles: torch.Tensor
+) -> Tuple[np.array, np.array]:
+    """Interface to the cython function edges_cython_core"""
+
+    points = points.cpu().numpy()
+    # triangles are sorted
+    triangles = triangles.sort(dim=0)[0]
+    triangles = triangles.cpu().numpy()
+
+    edges = edges_cython_core(points.astype(np.float64), triangles.astype(np.int64))
+
+    return torch.from_numpy(edges).long()
+
+
+def compute_points_and_triangles(
+    mesh: pyvista.PolyData,
+) -> Tuple[torch.Tensor, torch.Tensor]:
     """Return the points and triangles of a mesh as torch.Tensor.
- 
+
     Args:
         mesh (pyvista.PolyData): a mesh
 
