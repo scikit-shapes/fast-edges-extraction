@@ -10,7 +10,7 @@ dependencies = [
 
 
 setup(
-    name="fast-edges-extraction",
+    name="fast-edge-extraction",
     version="0.1",
     description="Fast edges extraction from a triangle mesh",
     author="Louis Pujol",

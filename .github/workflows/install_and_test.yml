@@ -26,7 +26,7 @@ jobs:
 
       - name: Try to import
         run: |
-          python -c "import fast_edges_extraction"
+          python -c "import fast_edge_extraction"
 
       - name: Test with pytest
         run: |
