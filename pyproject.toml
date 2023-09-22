@@ -1,3 +1,17 @@
+[project]
+name = "fast_edge_extraction"
+description = "Fast edge extraction for triangle meshes"
+version = "0.1"
+authors = [
+    { name = "Louis Pujol" }
+]
+dependencies = [
+    "numpy",
+    "numba",
+    "torch",
+    "pyvista"
+]
+
 [build-system]
 requires = ["numpy", "cython", "setuptools", "wheel"]
 build-backend = "setuptools.build_meta"

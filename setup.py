@@ -12,12 +12,7 @@ extension = Extension(
 )
 
 
-dependencies = [
-    "pyvista",
-    "numba",
-    "numpy",
-    "torch",
-]
+dependencies = ["pyvista", "numba", "numpy", "torch", "pyvista"]
 
 
 setup(
@@ -26,8 +21,8 @@ setup(
     description="Fast edges extraction from a triangle mesh",
     author="Louis Pujol",
     url="",
-    setup_requires=["cython"] + dependencies,
-    install_requires=dependencies,
+    # setup_requires=["cython"] + dependencies,
+    install_requires=["numpy"],
     packages=find_packages(),
     package_data={
         "fast_edge_extraction": ["*.pyx", "*.pxd"],
