@@ -36,5 +36,5 @@ jobs:
         run: |
           cd ..
           pip install pytest
-          pytest .
+          pytest fast-edge-extraction
           cd -
