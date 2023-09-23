@@ -28,9 +28,13 @@ jobs:
 
       - name: Try to import
         run: |
+          cd ..
           python -c "import fast_edge_extraction"
+          cd -
 
       - name: Test with pytest
         run: |
+          cd ..
           pip install pytest
           pytest .
+          cd -
