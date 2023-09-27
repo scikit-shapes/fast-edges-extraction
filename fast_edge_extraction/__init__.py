@@ -2,7 +2,6 @@ from ._numba import edges as edges_numba
 from ._torch import edges as edges_torch
 from ._cython import edges as edges_cython_core
 from typing import Tuple
-
 import pyvista
 import torch
 from typing import Tuple
@@ -10,6 +9,16 @@ import numpy as np
 
 
 def compute_edges(points: torch.Tensor, triangles: torch.Tensor) -> torch.Tensor:
+    """Compute the edges of a triangle mesh.
+
+    Args:
+        points (torch.Tensor): (n_points, 3) float32 tensor of points
+        triangles (torch.Tensor): (3, n_triangles) int64 tensor of triangles
+
+    Returns:
+        torch.Tensor: (2, n_edges) int64 tensor of edges
+    """
+
     return edges_cython(points, triangles)
 
 

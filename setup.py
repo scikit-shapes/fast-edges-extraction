@@ -12,7 +12,16 @@ extension = Extension(
 )
 
 
-dependencies = ["pyvista", "numba", "numpy", "torch", "pyvista"]
+dependencies = [
+    "pyvista",
+    "numba",
+    "numpy",
+    "torch",
+    "pyvista",
+    "jaxtyping",
+    "beartype",
+    "plum",
+]
 
 
 setup(
