@@ -1,7 +1,7 @@
 # fast-edge-extraction
 Fast edge extraction for triangle mesh
 
-This repository was create to find the fastest solution to the following problem : given an array of triangles (`(n_triangle, 3)`), find the associated list of edges.
+This repository was create to find the fastest solution to the following problem : given a (n_triangle, 3) array of triangles with shape , find the associated (n_edges, 2) array of  of edges.
 
 Compared implementations are :
 * VTK (through pyvista, with `use_all_points=True` to keep correspondence with initial points)
