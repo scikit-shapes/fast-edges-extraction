@@ -1,13 +1,29 @@
 # fast-edge-extraction
 Fast edge extraction for triangle mesh
 
-This repository was create to find the fastest solution to the following problem : given an array of integer repredenting a collection of triangles, find the associated list of edges. VTK provides a functionality to extract edges from a triangle mesh, but the output is a new mesh where points are not in the same order than in the original mesh.
+This repository was create to find the fastest solution to the following problem : given an array of triangles (`(n_triangle, 3)`), find the associated list of edges.
 
 Compared implementations are :
-* VTK + make indices in correspondance with original mesh (with Numba)
+* VTK (through pyvista, with `use_all_points=True` to keep correspondence with initial points)
 * Pytorch extraction of edges + cleaning to avoid repeating edges
 * Cython implementation
 
 Tests are made to ensure consistency accross implementation.
 
-So far, the cython implementation is the fastest. Decision were made to integrate it in scikit-shapes.
+A benchmark of run times can be found at `examples/compare_running_times.py`
+
+```
+210873 points, 421965 triangles
+-----------------------------------
+|Implementation    | Running time |
+|------------------+---------------
+|VTK               | 0.312        |
+|Torch             | 3.727        |
+|Cython            | 0.281        |
+----------------------------------
+Number of edges: 633083
+```
+
+Cython and VTK have similar running times while PyTorch implementation is slower. Cython implementation give access to a more explicit description of the edge topology : degrees, adjacent points, without any overhead.
+
+Decision were made to integrate the cython implementation in scikit-shapes.
