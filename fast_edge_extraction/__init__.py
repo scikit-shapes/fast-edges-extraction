@@ -1,25 +1,10 @@
-from ._numba import edges as edges_numba
-from ._torch import edges as edges_torch
+from ._vtk import edges as edges_vtk  # noqa: F401
+from ._torch import edges as edges_torch  # noqa: F401
 from ._cython import edges as edges_cython_core
 from typing import Tuple
 import pyvista
 import torch
-from typing import Tuple
 import numpy as np
-
-
-def compute_edges(points: torch.Tensor, triangles: torch.Tensor) -> torch.Tensor:
-    """Compute the edges of a triangle mesh.
-
-    Args:
-        points (torch.Tensor): (n_points, 3) float32 tensor of points
-        triangles (torch.Tensor): (3, n_triangles) int64 tensor of triangles
-
-    Returns:
-        torch.Tensor: (2, n_edges) int64 tensor of edges
-    """
-
-    return edges_cython(points, triangles)
 
 
 def edges_cython(
@@ -29,10 +14,10 @@ def edges_cython(
 
     points = points.cpu().numpy()
     # triangles are sorted
-    triangles = triangles.sort(dim=0)[0]
+    # triangles = triangles.sort(dim=0)[0]
     triangles = triangles.cpu().numpy()
 
-    edges = edges_cython_core(points.astype(np.float64), triangles.astype(np.int64))
+    edges = edges_cython_core(triangles.astype(np.int64))[0]
 
     return torch.from_numpy(edges).long()
 
@@ -52,8 +37,24 @@ def compute_points_and_triangles(
 
     # remove padding
     triangles = mesh.faces.reshape(-1, 4)[:, 1:]
-    triangles = torch.from_numpy(triangles.copy().T).long()
+    triangles = torch.from_numpy(triangles.copy()).long()
 
     points = torch.from_numpy(mesh.points).float()
 
     return points, triangles
+
+
+def sort_edges(edges: torch.Tensor) -> np.array:
+    """Lexicographically sort a (2, n_edges) array of edges to
+    allow for comparison with various implementations of edges
+    extraction.
+
+    Args:
+        edges (torch.Tensor): a (2, n_edges) array of edges
+
+    Returns:
+        np.array: the sorted edges
+    """
+    edges = edges.sort(dim=1)[0].cpu().numpy()
+    ordering = np.lexsort((edges[:, 1], edges[:, 0]))
+    return edges[ordering]

@@ -14,11 +14,11 @@ def edges(points: torch.Tensor, triangles: torch.Tensor) -> torch.Tensor:
     # Compute the edges of the triangles and sort them
     repeated_edges = torch.concat(
         [
-            triangles[[0, 1], :],
-            triangles[[1, 2], :],
-            triangles[[0, 2], :],
+            triangles[:, [0, 1]],
+            triangles[:, [1, 2]],
+            triangles[:, [0, 2]],
         ],
-        dim=1,
-    ).sort(dim=0)[0]
-    edges = torch.unique(repeated_edges, dim=1)
+        dim=0,
+    ).sort(dim=1)[0]
+    edges = torch.unique(repeated_edges, dim=0)
     return edges
