@@ -9,8 +9,9 @@ def edges(points: torch.Tensor, triangles: torch.Tensor) -> torch.Tensor:
         triangles (torch.Tensor): the triangles of the mesh
 
     Returns:
-        edges (2x|E| torch.Tensor): the edges of the mesh
+        edges (|E|x2 torch.Tensor): the edges of the mesh
     """
+    assert triangles.shape[1] == 3
     # Compute the edges of the triangles and sort them
     repeated_edges = torch.concat(
         [

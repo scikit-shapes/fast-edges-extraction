@@ -6,8 +6,10 @@ def edges(points: torch.Tensor, triangles: torch.Tensor) -> torch.Tensor:
     """Return the edges of the mesh
 
     Returns:
-        edges (2x|E| torch.Tensor): the edges of the mesh
+        edges (|E|x2 torch.Tensor): the edges of the mesh
     """
+
+    assert triangles.shape[1] == 3
 
     faces = triangles.clone().cpu().numpy()
     points = points.cpu().numpy()
