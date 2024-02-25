@@ -1,5 +1,5 @@
-pyvista
+cython
 numba
 numpy
+pyvista
 torch
-cython

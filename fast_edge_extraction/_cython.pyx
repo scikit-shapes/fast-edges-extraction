@@ -78,4 +78,3 @@ def edges(INT_DTYPE_t [:, :] triangles):
         np.asarray(adjacent_points)[:n_keep, :],
         np.asarray(edge_degree)[:n_keep]
     )
-

@@ -1,14 +1,18 @@
-import fast_edge_extraction
-from pyvista import examples
-import pyvista as pv
-import numpy as np
-import torch
-from time import time
 from math import log10
+from time import time
 
-# VTK and torch implementations
+import numpy as np
+import pyvista as pv
+import torch
+from pyvista import examples
 
-def edges_torch(points: torch.Tensor, triangles: torch.Tensor) -> torch.Tensor:
+import fast_edge_extraction
+
+# VTK and torch implementations
+
+def edges_torch(
+        points: torch.Tensor, triangles: torch.Tensor # noqa: ARG001
+    ) -> torch.Tensor:
     """Return the edges of the mesh
 
     Parameters
@@ -32,8 +36,7 @@ def edges_torch(points: torch.Tensor, triangles: torch.Tensor) -> torch.Tensor:
         ],
         dim=0,
     ).sort(dim=1)[0]
-    edges = torch.unique(repeated_edges, dim=0)
-    return edges
+    return torch.unique(repeated_edges, dim=0)
 
 
 def edges_vtk(points: torch.Tensor, triangles: torch.Tensor) -> torch.Tensor:
@@ -99,7 +102,7 @@ print(f"|Torch             | {time_torch:.3f}" + length_blank(time_torch) * " " 
 # -------
 
 start_cython = time()
-edges_cython = edges_cython = fast_edge_extraction.extract_edges(points, triangles)
+edges_cython = fast_edge_extraction.extract_edges(points, triangles)
 end_cython = time()
 time_cython = end_cython - start_cython
 print(f"|Cython            | {time_cython:.3f}" + length_blank(time_cython) * " " + "|")

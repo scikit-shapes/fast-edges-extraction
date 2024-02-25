@@ -1,8 +1,10 @@
-from ._cython import edges as edges_cython_core
 from typing import Tuple
+
+import numpy as np
 import pyvista
 import torch
-import numpy as np
+
+from ._cython import edges as edges_cython_core
 
 
 def extract_edges(

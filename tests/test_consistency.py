@@ -1,11 +1,16 @@
 """Assert that the different implementations of edge extraction are consistent."""
-from pyvista import examples
-import pyvista as pv
-import numpy as np
-import fast_edge_extraction
-import torch
 
-def extract_edges_torch(points: torch.Tensor, triangles: torch.Tensor) -> torch.Tensor:
+import numpy as np
+import pyvista as pv
+import torch
+from pyvista import examples
+
+import fast_edge_extraction
+
+
+def extract_edges_torch(
+    points: torch.Tensor, triangles: torch.Tensor  # noqa: ARG001
+) -> torch.Tensor:
     """Return the edges of the mesh
 
     Parameters
@@ -29,8 +34,7 @@ def extract_edges_torch(points: torch.Tensor, triangles: torch.Tensor) -> torch.
         ],
         dim=0,
     ).sort(dim=1)[0]
-    edges = torch.unique(repeated_edges, dim=0)
-    return edges
+    return torch.unique(repeated_edges, dim=0)
 
 
 def extract_edges_vtk(points: torch.Tensor, triangles: torch.Tensor) -> torch.Tensor:

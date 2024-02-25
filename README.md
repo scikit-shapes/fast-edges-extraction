@@ -8,7 +8,7 @@ Compared implementations are :
 * Pytorch extraction of edges + cleaning to avoid repeating edges
 * Cython implementation
 
-Tests are made to ensure consistency accross implementation.
+Tests are made to ensure consistency across implementation.
 
 A benchmark of run times can be found at `examples/compare_running_times.py`
 
