@@ -1,4 +1,12 @@
 # fast-edge-extraction
+
+TODO:
+
+- Propper package sctructure: repo-review
+- Basic documentation
+- Compilation + PyPI publication
+- conda publication
+
 Fast edge extraction for triangle mesh
 
 This repository was created to find the fastest solution to the following problem : given a (n_triangle, 3) array of triangles with shape , find the associated (n_edges, 2) array of  of edges.
