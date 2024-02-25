@@ -1,10 +1,65 @@
 import fast_edge_extraction
 from pyvista import examples
-import pyvista
+import pyvista as pv
 import numpy as np
 import torch
 from time import time
 from math import log10
+
+# VTK and torch implementations
+
+def edges_torch(points: torch.Tensor, triangles: torch.Tensor) -> torch.Tensor:
+    """Return the edges of the mesh
+
+    Parameters
+    ----------
+    points
+        the points of the mesh
+    triangle
+        the triangles of the mesh
+
+    Returns
+    -------
+        edges (|E|x2 torch.Tensor): the edges of the mesh
+    """
+    assert triangles.shape[1] == 3
+    # Compute the edges of the triangles and sort them
+    repeated_edges = torch.concat(
+        [
+            triangles[:, [0, 1]],
+            triangles[:, [1, 2]],
+            triangles[:, [0, 2]],
+        ],
+        dim=0,
+    ).sort(dim=1)[0]
+    edges = torch.unique(repeated_edges, dim=0)
+    return edges
+
+
+def edges_vtk(points: torch.Tensor, triangles: torch.Tensor) -> torch.Tensor:
+    """Return the edges of the mesh
+
+    Parameters
+    ----------
+    points
+        the points of the mesh
+    triangles
+        the triangles of the mesh
+
+    Returns
+    -------
+        edges (|E|x2 torch.Tensor): the edges of the mesh
+    """
+
+    assert triangles.shape[1] == 3
+
+    faces = triangles.clone().cpu().numpy()
+    points = points.cpu().numpy()
+    mesh = pv.PolyData.from_regular_faces(points, faces)
+
+    wireframe = mesh.extract_all_edges(use_all_points=True)
+    edges = wireframe.lines.reshape(-1, 3)[:, 1:]
+    return torch.from_numpy(edges)
 
 
 mesh = examples.download_louis_louvre().clean()
@@ -26,7 +81,7 @@ def length_blank(t: float) -> int:
 # ----
 
 start_vtk = time()
-edges_vtk = fast_edge_extraction.edges_vtk(points, triangles)
+edges_vtk = edges_vtk(points, triangles)
 end_vtk = time()
 time_vtk = end_vtk - start_vtk
 print(f"|VTK               | {time_vtk:.3f}" + length_blank(time_vtk) * " " + "|")
@@ -35,7 +90,7 @@ print(f"|VTK               | {time_vtk:.3f}" + length_blank(time_vtk) * " " + "|
 # ------
 
 start_torch = time()
-edges_torch = fast_edge_extraction.edges_torch(points, triangles)
+edges_torch = edges_torch(points, triangles)
 end_torch = time()
 time_torch = end_torch - start_torch
 print(f"|Torch             | {time_torch:.3f}" + length_blank(time_torch) * " " + "|")
@@ -44,7 +99,7 @@ print(f"|Torch             | {time_torch:.3f}" + length_blank(time_torch) * " " 
 # -------
 
 start_cython = time()
-edges_cython = edges_cython = fast_edge_extraction.edges_cython(points, triangles)
+edges_cython = edges_cython = fast_edge_extraction.extract_edges(points, triangles)
 end_cython = time()
 time_cython = end_cython - start_cython
 print(f"|Cython            | {time_cython:.3f}" + length_blank(time_cython) * " " + "|")

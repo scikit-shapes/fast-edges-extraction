@@ -1,5 +1,3 @@
-from ._vtk import edges as edges_vtk  # noqa: F401
-from ._torch import edges as edges_torch  # noqa: F401
 from ._cython import edges as edges_cython_core
 from typing import Tuple
 import pyvista
@@ -7,7 +5,7 @@ import torch
 import numpy as np
 
 
-def edges_cython(
+def extract_edges(
     points: torch.Tensor, triangles: torch.Tensor
 ) -> Tuple[np.array, np.array]:
     """Interface to the cython function edges_cython_core"""
