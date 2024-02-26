@@ -8,10 +8,8 @@ cnp.import_array()
 import numpy as np
 from libcpp.vector cimport vector
 
-INT_DTYPE = np.int64
-FLOAT_DTYPE = np.double
-ctypedef cnp.int64_t INT_DTYPE_t
-ctypedef cnp.double_t FLOAT_DTYPE_t
+INT_DTYPE = np.int_
+ctypedef cnp.int_t INT_DTYPE_t
 
 
 def edges(INT_DTYPE_t [:, :] triangles):
