@@ -17,6 +17,9 @@ dependencies = [
 requires = ["numpy", "cython", "setuptools"]
 build-backend = "setuptools.build_meta"
 
+[tool.setuptools]
+packages = ["fast_edge_extraction"]
+
 [tool.pytest.ini_options]
 minversion = "6.0"
 addopts = [
