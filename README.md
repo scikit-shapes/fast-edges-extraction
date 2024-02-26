@@ -2,7 +2,6 @@
 
 TODO:
 
-- Propper package sctructure: repo-review
 - Basic documentation
 - Compilation + PyPI publication
 - conda publication
