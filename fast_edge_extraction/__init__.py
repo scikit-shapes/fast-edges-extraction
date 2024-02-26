@@ -1,7 +1,6 @@
 from typing import Tuple
 
 import numpy as np
-import pyvista
 
 from ._cython import edges as edges_cython_core
 
@@ -14,28 +13,6 @@ def extract_edges(
         msg = "Triangles should have shape (n_triangles, 3)"
         raise ValueError(msg)
     return edges_cython_core(triangles.astype(np.int64))[0]
-
-
-def compute_points_and_triangles(
-    mesh: pyvista.PolyData,
-) -> Tuple[np.ndarray, np.ndarray]:
-    """Return the points and triangles of a mesh as torch.Tensor.
-
-    Args:
-        mesh (pyvista.PolyData): a mesh
-
-    Returns:
-        torch.Tensor: a (n_points, 3) tensor of points
-        torch.Tensor: a (n_triangles, 3) tensor of triangles
-    """
-    # remove padding
-    if not mesh.is_all_triangles:
-        msg = "Mesh is not all triangles"
-        raise ValueError(msg)
-
-    triangles = np.asarray(mesh.faces.reshape(-1, 4)[:, 1:])
-    points = np.asarray(mesh.points)
-    return points, triangles
 
 
 def sort_edges(edges: np.ndarray) -> np.ndarray:

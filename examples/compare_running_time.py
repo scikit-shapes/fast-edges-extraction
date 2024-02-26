@@ -2,8 +2,6 @@ from math import log10
 from time import time
 
 import numpy as np
-import pyvista as pv
-from pyvista import examples
 
 import fast_edge_extraction
 
@@ -39,33 +37,16 @@ def edges_numpy(
     return np.unique(repeated_edges, axis=0)
 
 
-def edges_vtk(points: np.ndarray, triangles: np.ndarray) -> np.ndarray:
-    """Return the edges of the mesh
 
-    Parameters
-    ----------
-    points
-        the points of the mesh
-    triangles
-        the triangles of the mesh
+# mesh = examples.download_louis_louvre().clean()
+# points, triangles = fast_edge_extraction.compute_points_and_triangles(mesh)
 
-    Returns
-    -------
-        edges (|E|x2 torch.Tensor): the edges of the mesh
-    """
-
-    assert triangles.shape[1] == 3
-
-    mesh = pv.PolyData.from_regular_faces(points, triangles)
-    wireframe = mesh.extract_all_edges(use_all_points=True)
-    return wireframe.lines.reshape(-1, 3)[:, 1:]
-
-
-mesh = examples.download_louis_louvre().clean()
-points, triangles = fast_edge_extraction.compute_points_and_triangles(mesh)
+generator = np.random.default_rng(0)
+points = generator.random((1000, 3))
+triangles = generator.integers(0, 50000, (50000, 3))
 
 print()
-print(f"{mesh.n_points} points, {mesh.n_cells} triangles")
+print(f"{len(points)} points, {len(triangles)} triangles")
 print("-----------------------------------")
 print("|Implementation    | Running time |")
 print("|------------------+---------------")
@@ -76,14 +57,14 @@ def length_blank(t: float) -> int:
     return 8 - int(log10(max([t, 1])))
 
 
-# VTK
-# ----
+# # VTK
+# # ----
 
-start_vtk = time()
-edges_vtk = edges_vtk(points, triangles)
-end_vtk = time()
-time_vtk = end_vtk - start_vtk
-print(f"|VTK               | {time_vtk:.3f}" + length_blank(time_vtk) * " " + "|")
+# start_vtk = time()
+# edges_vtk = edges_vtk(points, triangles)
+# end_vtk = time()
+# time_vtk = end_vtk - start_vtk
+# print(f"|VTK               | {time_vtk:.3f}" + length_blank(time_vtk) * " " + "|")
 
 # Torch
 # ------
@@ -113,8 +94,8 @@ print("Checking consistency between implementations...")
 
 edges_torch = fast_edge_extraction.sort_edges(edges_np)
 edges_cython = fast_edge_extraction.sort_edges(edges_cython)
-edges_vtk = fast_edge_extraction.sort_edges(edges_vtk)
+# edges_vtk = fast_edge_extraction.sort_edges(edges_vtk)
 
 assert np.allclose(edges_torch, edges_cython)
-assert np.allclose(edges_torch, edges_vtk)
+# assert np.allclose(edges_torch, edges_vtk)
 print("Consistency check passed!")
