@@ -8,8 +8,6 @@ authors = [
 ]
 dependencies = [
     "numpy",
-    "numba",
-    "torch",
     "pyvista"
 ]
 

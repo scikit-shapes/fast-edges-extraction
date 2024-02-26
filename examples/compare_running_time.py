@@ -3,16 +3,15 @@ from time import time
 
 import numpy as np
 import pyvista as pv
-import torch
 from pyvista import examples
 
 import fast_edge_extraction
 
 # VTK and torch implementations
 
-def edges_torch(
-        points: torch.Tensor, triangles: torch.Tensor # noqa: ARG001
-    ) -> torch.Tensor:
+def edges_numpy(
+        points: np.ndarray, triangles: np.ndarray # noqa: ARG001
+    ) -> np.ndarray:
     """Return the edges of the mesh
 
     Parameters
@@ -28,18 +27,19 @@ def edges_torch(
     """
     assert triangles.shape[1] == 3
     # Compute the edges of the triangles and sort them
-    repeated_edges = torch.concat(
+    repeated_edges = np.concatenate(
         [
             triangles[:, [0, 1]],
             triangles[:, [1, 2]],
             triangles[:, [0, 2]],
         ],
-        dim=0,
-    ).sort(dim=1)[0]
-    return torch.unique(repeated_edges, dim=0)
+        axis=0,
+    )
+    repeated_edges.sort(axis=1)
+    return np.unique(repeated_edges, axis=0)
 
 
-def edges_vtk(points: torch.Tensor, triangles: torch.Tensor) -> torch.Tensor:
+def edges_vtk(points: np.ndarray, triangles: np.ndarray) -> np.ndarray:
     """Return the edges of the mesh
 
     Parameters
@@ -56,13 +56,9 @@ def edges_vtk(points: torch.Tensor, triangles: torch.Tensor) -> torch.Tensor:
 
     assert triangles.shape[1] == 3
 
-    faces = triangles.clone().cpu().numpy()
-    points = points.cpu().numpy()
-    mesh = pv.PolyData.from_regular_faces(points, faces)
-
+    mesh = pv.PolyData.from_regular_faces(points, triangles)
     wireframe = mesh.extract_all_edges(use_all_points=True)
-    edges = wireframe.lines.reshape(-1, 3)[:, 1:]
-    return torch.from_numpy(edges)
+    return wireframe.lines.reshape(-1, 3)[:, 1:]
 
 
 mesh = examples.download_louis_louvre().clean()
@@ -92,11 +88,11 @@ print(f"|VTK               | {time_vtk:.3f}" + length_blank(time_vtk) * " " + "|
 # Torch
 # ------
 
-start_torch = time()
-edges_torch = edges_torch(points, triangles)
-end_torch = time()
-time_torch = end_torch - start_torch
-print(f"|Torch             | {time_torch:.3f}" + length_blank(time_torch) * " " + "|")
+start_np = time()
+edges_np = edges_numpy(points, triangles)
+end_np = time()
+time_np = end_np - start_np
+print(f"|Numpy             | {time_np:.3f}" + length_blank(time_np) * " " + "|")
 
 # Cython
 # -------
@@ -115,7 +111,7 @@ print()
 print("Checking consistency between implementations...")
 
 
-edges_torch = fast_edge_extraction.sort_edges(edges_torch)
+edges_torch = fast_edge_extraction.sort_edges(edges_np)
 edges_cython = fast_edge_extraction.sort_edges(edges_cython)
 edges_vtk = fast_edge_extraction.sort_edges(edges_vtk)
 

@@ -2,30 +2,23 @@ from typing import Tuple
 
 import numpy as np
 import pyvista
-import torch
 
 from ._cython import edges as edges_cython_core
 
 
 def extract_edges(
-    points: torch.Tensor, triangles: torch.Tensor
-) -> Tuple[np.array, np.array]:
+    points: np.ndarray, triangles: np.ndarray # noqa: ARG001
+) -> Tuple[np.ndarray, np.ndarray]:
     """Interface to the cython function edges_cython_core"""
-
-    assert triangles.shape[1] == 3
-    points = points.cpu().numpy()
-    # triangles are sorted
-    # triangles = triangles.sort(dim=0)[0]
-    triangles = triangles.cpu().numpy()
-
-    edges = edges_cython_core(triangles.astype(np.int64))[0]
-
-    return torch.from_numpy(edges).long()
+    if triangles.shape[1] != 3:
+        msg = "Triangles should have shape (n_triangles, 3)"
+        raise ValueError(msg)
+    return edges_cython_core(triangles.astype(np.int64))[0]
 
 
 def compute_points_and_triangles(
     mesh: pyvista.PolyData,
-) -> Tuple[torch.Tensor, torch.Tensor]:
+) -> Tuple[np.ndarray, np.ndarray]:
     """Return the points and triangles of a mesh as torch.Tensor.
 
     Args:
@@ -36,14 +29,16 @@ def compute_points_and_triangles(
         torch.Tensor: a (n_triangles, 3) tensor of triangles
     """
     # remove padding
-    triangles = mesh.faces.reshape(-1, 4)[:, 1:]
-    triangles = torch.from_numpy(triangles.copy()).long()
+    if not mesh.is_all_triangles:
+        msg = "Mesh is not all triangles"
+        raise ValueError(msg)
 
-    points = torch.from_numpy(mesh.points).float()
+    triangles = np.asarray(mesh.faces.reshape(-1, 4)[:, 1:])
+    points = np.asarray(mesh.points)
     return points, triangles
 
 
-def sort_edges(edges: torch.Tensor) -> np.array:
+def sort_edges(edges: np.ndarray) -> np.ndarray:
     """Lexicographically sort a (n_edges, 2) array of edges to
     allow for comparison with various implementations of edges
     extraction.
@@ -55,7 +50,6 @@ def sort_edges(edges: torch.Tensor) -> np.array:
         np.array: the sorted edges
     """
     assert edges.shape[1] == 2
-
-    edges = edges.sort(dim=1)[0].cpu().numpy()
+    edges.sort(axis=1)
     ordering = np.lexsort((edges[:, 1], edges[:, 0]))
     return edges[ordering]
