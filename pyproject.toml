@@ -7,7 +7,7 @@ authors = [
     { name = "Louis Pujol" }
 ]
 dependencies = [
-    "numpy",
+    "numpy==1.23.4",
 ]
 
 [build-system]
