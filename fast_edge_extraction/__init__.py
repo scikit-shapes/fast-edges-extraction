@@ -12,7 +12,14 @@ def extract_edges(
     if triangles.shape[1] != 3:
         msg = "Triangles should have shape (n_triangles, 3)"
         raise ValueError(msg)
-    return edges_cython_core(triangles.astype(np.int64))[0]
+
+    try:
+        return edges_cython_core(triangles.astype(np.int64))[0]
+    except ValueError as err:
+        if "Buffer dtype mismatch" in str(err):
+            return edges_cython_core(triangles.astype(np.int32))[0]
+
+        raise err
 
 
 def sort_edges(edges: np.ndarray) -> np.ndarray:
