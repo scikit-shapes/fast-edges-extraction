@@ -104,6 +104,7 @@ jobs:
   upload_all:
     name: Publish Python 🐍 distribution 📦 to TestPyPI
     needs: [build_wheels, build_aarch64_wheels, make_sdist]
+    runs-on: ubuntu-latest
     environment:
       name: TestPyPI
       url: https://test.pypi.org/p/fast-edge-extraction
