@@ -13,13 +13,8 @@ def extract_edges(
         msg = "Triangles should have shape (n_triangles, 3)"
         raise ValueError(msg)
 
-    try:
-        return edges_cython_core(triangles.astype(np.int_))[0]
-    except ValueError:
-        try:
-            return edges_cython_core(triangles.astype(np.int32))[0]
-        except ValueError:
-            return edges_cython_core(triangles.astype(np.int64))[0]
+
+    return edges_cython_core(triangles.astype(np.int_))[0]
 
 def sort_edges(edges: np.ndarray) -> np.ndarray:
     """Lexicographically sort a (n_edges, 2) array of edges to
