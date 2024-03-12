@@ -1,6 +1,8 @@
 [project]
 name = "fast_edge_extraction"
 description = "Fast edge extraction for triangle meshes"
+readme = "README.md"
+license = {file = "LICENSE"}
 requires-python = ">= 3.8"
 version = "0.1"
 authors = [
