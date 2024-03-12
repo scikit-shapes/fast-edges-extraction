@@ -108,10 +108,12 @@ jobs:
     environment:
       name: TestPyPI
       url: https://test.pypi.org/p/fast-edge-extraction
+    permissions:
+      id-token: write
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: cibw-*
+          pattern: cibw-*
           path: dist
           merge-multiple: true
 
