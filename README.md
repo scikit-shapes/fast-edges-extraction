@@ -1,36 +1,41 @@
 # fast-edge-extraction
 
-TODO:
+Extract the edges from the triangle structure of a triangle mesh.
 
-- Basic documentation
-- Compilation + PyPI publication
-- conda publication
+## Extract the edges from the triangles
 
-Fast edge extraction for triangle mesh
+```python
+import pyvista as pv
+from pyvista import examples
 
-This repository was created to find the fastest solution to the following problem : given a (n_triangle, 3) array of triangles with shape , find the associated (n_edges, 2) array of  of edges.
+bunny = examples.download_bunny()
+triangles = bunny.bunny.regular_faces
 
-Compared implementations are :
-* VTK (through pyvista, with `use_all_points=True` to keep correspondence with initial points)
-* Pytorch extraction of edges + cleaning to avoid repeating edges
-* Cython implementation
+from fast_edge_extraction import extract_edges
 
-Tests are made to ensure consistency across implementation.
-
-A benchmark of run times can be found at `examples/compare_running_times.py`
-
-```
-210873 points, 421965 triangles
------------------------------------
-|Implementation    | Running time |
-|------------------+---------------
-|VTK               | 0.312        |
-|Torch             | 3.727        |
-|Cython            | 0.281        |
-----------------------------------
-Number of edges: 633083
+edges = extract_edges(triangles)
 ```
 
-Cython and VTK have similar running times while PyTorch implementation is slower. Cython implementation give access to a more explicit description of the edge topology : degrees, adjacent points, without any overhead.
+## Also extract adjacency information
 
-Decision were made to integrate the cython implementation in scikit-shapes.
+```python
+# Extract edges, degrees, and adjacency information (triangles and points)
+edges, degrees, t_a, p_a = extract_edges(triangles, return_adjacency=True)
+
+# Extract manifold (2 adjacent triangles) and boundary (1 adjacent triangle) edges
+manifold_edges = edges[degrees == 2]
+boundary_edges = edges[degrees == 1]
+other = degrees > 2
+
+print("Number of manifold edges:", manifold_edges.sum())
+print("Number of boundary edges:", boundary_edges.sum())
+print("Number of other edges:", other.sum())
+
+# For each manifold edge, extract the adjacent triangles and points
+manifold_adjacent_triangles = t_a[degrees == 2]
+manifold_adjacent_points = p_a[degrees == 1]
+
+# For each boundary edge, extract the adjacent triangle and point
+boundary_adjacent_triangles = t_a[degrees == 1][:, 0]
+boundary_adjacent_points = p_a[degrees == 1][:, 0]
+```
