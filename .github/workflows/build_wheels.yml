@@ -2,10 +2,8 @@
 name: Upload package to Pypi
 
 on:
+  release:
   workflow_dispatch:
-    inputs:
-      overrideVersion:
-        description: Manually force a version
 
 env:
   CIBW_BUILD_VERBOSITY: 3
@@ -104,6 +102,7 @@ jobs:
   upload_all:
     name: Publish Python 🐍 distribution 📦 to TestPyPI
     needs: [build_wheels, build_aarch64_wheels, make_sdist]
+    if: github.event_name == 'release'
     runs-on: ubuntu-latest
     environment:
       name: TestPyPI
