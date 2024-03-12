@@ -1,16 +1,21 @@
 [project]
 name = "fast_edges_extraction"
-description = "Fast edge extraction for triangle meshes"
+description = "Edge extraction for triangle meshes"
 readme = "README.md"
 license = {file = "LICENSE"}
 requires-python = ">= 3.8"
-version = "0.1"
+version = "0.1.1"
 authors = [
     { name = "Louis Pujol" }
 ]
 dependencies = [
     "numpy",
 ]
+
+[project.urls]
+repository = "https://github.com/Louis-Pujol/fast-edges-extraction"
+changelog = "https://github.com/Louis-Pujol/fast-edges-extraction/main/CHANGELOG.md"
+
 
 [build-system]
 requires = ["numpy", "cython", "setuptools"]
