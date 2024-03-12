@@ -6,7 +6,7 @@ from ._extract_edges import extract_edges as extract_edges_cython
 
 
 def extract_edges(
-    triangles: np.ndarray,
+    triangles: Union[list, np.ndarray],
     return_adjacency: bool = False,
 
 ) -> Union[np.ndarray, Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]]:
@@ -52,6 +52,7 @@ def extract_edges(
         that are adjacent to each edge. Only returned if `return_adjacency` is
         `True`.
     """
+    triangles = np.asarray(triangles)
 
     if triangles.shape[1] != 3:
         msg = "Triangles should have shape (n_triangles, 3)"
