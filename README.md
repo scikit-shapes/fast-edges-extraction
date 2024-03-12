@@ -12,7 +12,7 @@ Example
 - Extract the edges from the triangles
 
 ```python
-from fast_edge_extraction import extract_edges
+from fast_edges_extraction import extract_edges
 
 triangles = [
     [0, 1, 2],
