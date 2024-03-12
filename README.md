@@ -1,14 +1,15 @@
-fast-edge-extraction
-====================
+fast-edges-extraction
+=====================
 
-Extract the edges from triangles.
+Cython implementation of edges extraction from triangles as well as adjacency information (edge degrees and adjacent points/triangles for manifold and boundary edges).
+
+Example
+-------
 
 ![](example.png)
 
 
-Extract the edges from the triangles
-------------------------------------
-
+- Extract the edges from the triangles
 
 ```python
 from fast_edge_extraction import extract_edges
@@ -31,8 +32,7 @@ Out:
  [2 3]]
 ```
 
-Also extract adjacency information
-----------------------------------
+- Also extract adjacency information
 
 ```python
 # Extract edges, degrees, and adjacency information (triangles and points)
