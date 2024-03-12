@@ -1,8 +1,11 @@
-# fast-edge-extraction
+fast-edge-extraction
+====================
 
 Extract the edges from the triangle structure of a triangle mesh.
 
-## Extract the edges from the triangles
+
+Extract the edges from the triangles
+------------------------------------
 
 ```python
 import pyvista as pv
@@ -16,7 +19,8 @@ from fast_edge_extraction import extract_edges
 edges = extract_edges(triangles)
 ```
 
-## Also extract adjacency information
+Also extract adjacency information
+----------------------------------
 
 ```python
 # Extract edges, degrees, and adjacency information (triangles and points)
