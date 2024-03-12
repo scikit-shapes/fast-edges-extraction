@@ -106,7 +106,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: TestPyPI
-      url: https://test.pypi.org/p/fast-edge-extraction
+      url: https://pypi.org/p/fast-edges-extraction
     permissions:
       id-token: write
     steps:
@@ -117,5 +117,3 @@ jobs:
           merge-multiple: true
 
       - uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          repository-url: https://test.pypi.org/legacy/

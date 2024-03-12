@@ -3,7 +3,7 @@ from time import time
 
 import numpy as np
 
-import fast_edge_extraction
+import fast_edges_extraction
 
 try:
     import pyvista as pv
@@ -124,7 +124,7 @@ print(f"|Numpy             | {time_np:.3f}" + length_blank(time_np) * " " + "|")
 # -------
 
 start_cython = time()
-edges_cython = fast_edge_extraction.extract_edges(triangles)
+edges_cython = fast_edges_extraction.extract_edges(triangles)
 end_cython = time()
 time_cython = end_cython - start_cython
 print(f"|Cython            | {time_cython:.3f}" + length_blank(time_cython) * " " + "|")

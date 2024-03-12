@@ -2,7 +2,7 @@
 
 import numpy as np
 
-import fast_edge_extraction
+import fast_edges_extraction
 
 # VTK and np implementations
 
@@ -61,7 +61,7 @@ def test_consistency():
     print(f"Shape of triangles: {triangles.shape}")
 
     edges_np = extract_edges_numpy(triangles)
-    edges_cython = fast_edge_extraction.extract_edges(triangles)
+    edges_cython = fast_edges_extraction.extract_edges(triangles)
 
     print(f"Shape of edges_np: {edges_np.shape}")
     print(f"Shape of edges_cython: {edges_cython.shape}")

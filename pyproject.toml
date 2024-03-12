@@ -1,5 +1,5 @@
 [project]
-name = "fast_edge_extraction"
+name = "fast_edges_extraction"
 description = "Fast edge extraction for triangle meshes"
 readme = "README.md"
 license = {file = "LICENSE"}
@@ -17,7 +17,7 @@ requires = ["numpy", "cython", "setuptools"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
-packages = ["fast_edge_extraction"]
+packages = ["fast_edges_extraction"]
 
 [tool.pytest.ini_options]
 minversion = "6.0"
