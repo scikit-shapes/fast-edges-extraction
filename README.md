@@ -1,7 +1,7 @@
 fast-edge-extraction
 ====================
 
-Cython package for extracting edges from triangles as well as adjacency information (edge degrees and adjacent edges/triangles for manifold and boundary edges).
+Cython implementation of edges extraction from triangles as well as adjacency information (edge degrees and adjacent points/triangles for manifold and boundary edges).
 
 Example
 -------
