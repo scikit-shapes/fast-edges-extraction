@@ -3,9 +3,9 @@ from Cython.Build import cythonize
 from setuptools import Extension, setup
 
 extension = Extension(
-    name="fast_edge_extraction._cython",
+    name="fast_edge_extraction._extract_edges",
     sources=[
-        "fast_edge_extraction/_cython.pyx",
+        "fast_edge_extraction/_extract_edges.pyx",
     ],
     include_dirs=[np.get_include(), "fast_edge_extraction"],
     define_macros=[("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],

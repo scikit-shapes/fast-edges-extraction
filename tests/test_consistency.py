@@ -7,9 +7,24 @@ import fast_edge_extraction
 # VTK and np implementations
 
 
-def extract_edges_numpy(
-    points: np.ndarray, triangles: np.ndarray  # noqa: ARG001
-) -> np.ndarray:
+def sort_edges(edges: np.ndarray) -> np.ndarray:
+    """Lexicographically sort a (n_edges, 2) array of edges to
+    allow for comparison with various implementations of edges
+    extraction.
+
+    Args:
+        edges (torch.Tensor): a (n_edges, 2) array of edges
+
+    Returns:
+        np.array: the sorted edges
+    """
+    assert edges.shape[1] == 2
+    edges.sort(axis=1)
+    ordering = np.lexsort((edges[:, 1], edges[:, 0]))
+    return edges[ordering]
+
+
+def extract_edges_numpy(triangles: np.ndarray) -> np.ndarray:
     """Return the edges of the mesh
 
     Parameters
@@ -45,13 +60,13 @@ def test_consistency():
     print(f"Shape of points: {points.shape}")
     print(f"Shape of triangles: {triangles.shape}")
 
-    edges_np = extract_edges_numpy(points, triangles)
-    edges_cython = fast_edge_extraction.extract_edges(points, triangles)
+    edges_np = extract_edges_numpy(triangles)
+    edges_cython = fast_edge_extraction.extract_edges(triangles)
 
     print(f"Shape of edges_np: {edges_np.shape}")
     print(f"Shape of edges_cython: {edges_cython.shape}")
 
-    edges_np = fast_edge_extraction.sort_edges(edges_np)
-    edges_cython = fast_edge_extraction.sort_edges(edges_cython)
+    edges_np = sort_edges(edges_np)
+    edges_cython = sort_edges(edges_cython)
 
     assert np.allclose(edges_np, edges_cython)
