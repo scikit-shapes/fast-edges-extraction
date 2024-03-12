@@ -1,5 +1,5 @@
-fast-edge-extraction
-====================
+fast-edges-extraction
+=====================
 
 Cython implementation of edges extraction from triangles as well as adjacency information (edge degrees and adjacent points/triangles for manifold and boundary edges).
 
