@@ -14,7 +14,7 @@ dependencies = [
 
 [project.urls]
 repository = "https://github.com/Louis-Pujol/fast-edges-extraction"
-changelog = "https://github.com/Louis-Pujol/fast-edges-extraction/main/CHANGELOG.md"
+changelog = "https://github.com/Louis-Pujol/fast-edges-extraction/blob/main/CHANGELOG.md"
 
 
 [build-system]
