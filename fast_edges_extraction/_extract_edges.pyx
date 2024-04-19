@@ -7,8 +7,8 @@ cimport numpy as cnp
 cnp.import_array()
 import numpy as np
 
-INT_DTYPE = np.int_
-ctypedef cnp.int_t INT_DTYPE_t
+INT_DTYPE = np.int64
+ctypedef cnp.int64_t INT_DTYPE_t
 
 
 def extract_edges(INT_DTYPE_t [:, :] triangles):
@@ -20,8 +20,8 @@ def extract_edges(INT_DTYPE_t [:, :] triangles):
     triangles = np.ascontiguousarray(triangles, dtype=INT_DTYPE)
 
     #Compute neighbors
-    cdef int i, j, k, l
-    cdef int n_triangles = triangles.shape[0]
+    cdef INT_DTYPE_t i, j, k, l
+    cdef INT_DTYPE_t n_triangles = triangles.shape[0]
 
     cdef INT_DTYPE_t [:, :] adjacent_triangles = -1 * np.ones((3 * n_triangles, 2), dtype=INT_DTYPE)
     cdef INT_DTYPE_t [:, :] adjacent_points = -1 * np.ones((3 * n_triangles, 2), dtype=INT_DTYPE)
@@ -49,7 +49,7 @@ def extract_edges(INT_DTYPE_t [:, :] triangles):
     cdef INT_DTYPE_t[:, :] short_edges = np.zeros((3 * n_triangles, 2), dtype=INT_DTYPE)
     cdef INT_DTYPE_t n_keep = 1
 
-    cdef INT_DTYPE_t[:] triangles_ref = np.repeat(np.arange(n_triangles), repeats=3)
+    cdef INT_DTYPE_t[:] triangles_ref = np.repeat(np.arange(n_triangles, dtype=INT_DTYPE), repeats=3)
     cdef INT_DTYPE_t[:] indice_ref = np.tile(np.array([2, 1, 0], dtype=INT_DTYPE), reps=n_triangles)
 
     short_edges[0, :] = edges[order[0]]
