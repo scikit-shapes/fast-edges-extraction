@@ -10,6 +10,8 @@
 
 ## 0.1.2
 
+Release on April 19, 2024.
+
 ### Added
 
 * Windows support
