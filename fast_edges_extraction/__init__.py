@@ -63,7 +63,7 @@ def extract_edges(
         degrees,
         adjacent_triangles,
         adjacent_points
-    ) = extract_edges_cython(triangles.astype(np.int_))
+    ) = extract_edges_cython(triangles.astype(np.int64))
 
     if not return_adjacency:
         return edges
