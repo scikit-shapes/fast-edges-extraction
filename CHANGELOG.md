@@ -1,11 +1,23 @@
 # Change Log
 
-## Unreleased
+## Unreleased
+
+### Added
+
+### Changed
+
+### removed
+
+## 0.1.2
 
 ### Added
 
+* Windows support
+
 
 ### Changed
+
+* Switch from `int_` to `int64` to make the package working on windows (see https://stackoverflow.com/questions/21851985/difference-between-np-int-np-int-int-and-np-int-t-in-cython)
 
 
 ### Removed
