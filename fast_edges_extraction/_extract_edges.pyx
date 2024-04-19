@@ -21,7 +21,7 @@ def extract_edges(INT_DTYPE_t [:, :] triangles):
 
     #Compute neighbors
     cdef int i, j, k, l
-    cdef int n_triangles = triangles.shape[0]
+    cdef INT_DTYPE_t n_triangles = triangles.shape[0]
 
     cdef INT_DTYPE_t [:, :] adjacent_triangles = -1 * np.ones((3 * n_triangles, 2), dtype=INT_DTYPE)
     cdef INT_DTYPE_t [:, :] adjacent_points = -1 * np.ones((3 * n_triangles, 2), dtype=INT_DTYPE)
