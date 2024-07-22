@@ -18,7 +18,7 @@ changelog = "https://github.com/Louis-Pujol/fast-edges-extraction/blob/main/CHAN
 
 
 [build-system]
-requires = ["numpy", "cython", "setuptools"]
+requires = ["numpy>=2.0", "cython", "setuptools"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
