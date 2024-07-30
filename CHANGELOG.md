@@ -8,6 +8,18 @@
 
 ### removed
 
+## 0.1.3
+
+Release on July 30, 2024
+
+### Added
+
+### Changed
+
+* The binary is now compiled with numpy>=2.0, making the package compatible with latest numpy versions
+
+### removed
+
 ## 0.1.2
 
 Release on April 19, 2024.
