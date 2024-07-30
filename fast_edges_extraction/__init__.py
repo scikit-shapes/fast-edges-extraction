@@ -1,4 +1,4 @@
-from typing import Tuple, Union
+from typing import Union
 
 import numpy as np
 
@@ -9,7 +9,7 @@ def extract_edges(
     triangles: Union[list, np.ndarray],
     return_adjacency: bool = False,
 
-) -> Union[np.ndarray, Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]]:
+) -> Union[np.ndarray, tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]]:
     """Extract the edges from a set of triangles.
 
     With default parameters, this function returns the edges of the triangles
