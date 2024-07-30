@@ -71,7 +71,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python: [38, 39, 310, 311, 312]
+        python: [39, 310, 311, 312]
         include:
           - os: ubuntu-latest
             arch: aarch64
