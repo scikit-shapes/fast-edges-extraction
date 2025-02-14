@@ -4,7 +4,7 @@ description = "Edge extraction for triangle meshes"
 readme = "README.md"
 license = {file = "LICENSE"}
 requires-python = ">= 3.9"
-version = "0.1.3"
+version = "0.1.4"
 authors = [
     { name = "Louis Pujol" }
 ]
