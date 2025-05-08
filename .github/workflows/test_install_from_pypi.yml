@@ -1,4 +1,4 @@
-name: Python package
+name: Intsall from PyPI
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

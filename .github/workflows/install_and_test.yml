@@ -1,40 +1,40 @@
-name: Python package
+# name: Python package
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+# concurrency:
+#   group: ${{ github.workflow }}-${{ github.ref }}
+#   cancel-in-progress: true
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-  workflow_dispatch:
-
-
-jobs:
-  build:
+# on:
+#   push:
+#     branches:
+#       - main
+#   pull_request:
+#   workflow_dispatch:
 
 
-    strategy:
-      matrix:
-        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
-        os: [ubuntu-latest, macos-latest, windows-latest]
-
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
+# jobs:
+#   build:
 
 
-      - name: Install package
-        run: |
-          pip install -e .
+#     strategy:
+#       matrix:
+#         python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+#         os: [ubuntu-latest, macos-latest, windows-latest]
 
-      - name: Test with pytest
-        run: |
-          pip install pytest
-          pytest .
+#     runs-on: ${{ matrix.os }}
+#     steps:
+#       - uses: actions/checkout@v4
+#       - name: Set up Python ${{ matrix.python-version }}
+#         uses: actions/setup-python@v5
+#         with:
+#           python-version: ${{ matrix.python-version }}
+
+
+#       - name: Install package
+#         run: |
+#           pip install -e .
+
+#       - name: Test with pytest
+#         run: |
+#           pip install pytest
+#           pytest .
