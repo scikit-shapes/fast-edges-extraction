@@ -1,4 +1,4 @@
-name: Intsall from PyPI
+name: Install from PyPI
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -30,7 +30,7 @@ jobs:
           uname -a
           python --version
           pip --version
-          
+
       - name: Install from PyPI
         run: |
           pip install fast-edges-extraction==0.1.4
