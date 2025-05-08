@@ -8,6 +8,30 @@
 
 ### removed
 
+## 0.1.5
+
+Release on May 08, 2025
+
+### Added
+
+### Changed
+
+* Add a macos intel wheel
+
+### removed
+
+## 0.1.4
+
+Release on February 14, 2024
+
+### Added
+
+### Changed
+
+* Add compatibility with python3.13
+
+### removed
+
 ## 0.1.3
 
 Release on July 30, 2024
